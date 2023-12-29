@@ -13,8 +13,14 @@ namespace TaskManagement.Web.Pages.Task
             TaskData = new List<GetTaskResponse>();
             var addData = new GetTaskResponse
             {
-                TaskDescription = "Rafid",
-                TaskName = "Rafidia Aqil"
+                TaskID = Guid.NewGuid().ToString(),
+                Title = "API - Modify Response",
+                Description = "Detailed",
+                Assignee = "rramadhan3",
+                DueDate = DateTime.Now.AddDays(2),
+                ProgressPercentage = (decimal)78.5,
+                Priority = "High",
+                Status = "In Progress"
             };
             TaskData.Add(addData);
         }

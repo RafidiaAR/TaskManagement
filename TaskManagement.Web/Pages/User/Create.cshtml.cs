@@ -12,6 +12,7 @@ namespace TaskManagement.Web.Pages.User
         {
         }
 
+        [ValidateAntiForgeryToken]
         public IActionResult OnPost()
         {
             if (!ModelState.IsValid)

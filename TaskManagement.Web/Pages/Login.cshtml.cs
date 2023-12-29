@@ -2,12 +2,16 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
+using TaskManagement.Web.Model.User;
+using TaskManagement.Web.Pages.User;
 
 namespace TaskManagement.Web.Pages
 {
     public class LoginModel : PageModel
     {
-        public IActionResult OnGet()
+        [BindProperty]
+        public UserLoginModel UserLoginModel { get; set; }
+        public IActionResult OnGet(string ReturnUrl)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -17,11 +21,11 @@ namespace TaskManagement.Web.Pages
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string ReturnUrl)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, "Rafid"),
+                new Claim(ClaimTypes.Name, UserLoginModel.UserName),
                
             };
 

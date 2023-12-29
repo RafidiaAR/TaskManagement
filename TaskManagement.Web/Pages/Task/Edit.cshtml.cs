@@ -5,8 +5,9 @@ namespace TaskManagement.Web.Pages.Task
 {
     public class EditModel : PageModel
     {
-        public void OnGet()
+        public IActionResult OnGet(string TaskId)
         {
+            return Page();
         }
     }
 }

@@ -1,20 +1,22 @@
-﻿@page
+﻿@page "/Task"
 @model TaskManagement.Web.Pages.Task.IndexModel
 @{
 }
 
 <div class="row mb-5">
     <div class="col">
-        <a class="btn btn-primary">Add New User</a>
+        <a class="btn btn-primary" href="/Task/Create">Add New Task</a>
     </div>
 </div>
 
 <table class="table" id="userTable">
     <thead>
         <tr>
-            <th>TaskName</th>
-            <th>TaskDescription</th>
+            <th>Title</th>
+            <th>Priority</th>
+            <th>Due Date</th>
             <th>Progress</th>
+            <th>Status</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -22,11 +24,12 @@
         @foreach (var item in Model.TaskData)
         {
             <tr>
-                <td>@item.TaskName</td>
-                <td>@item.TaskDescription</td>
+                <td>@item.Title</td>
+                <td>@item.Priority</td>
+                <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
 
                 @{
-                    var completionPercentage = 10;
+                    var completionPercentage = item.ProgressPercentage;
                     string progressBarColor;
                 }
 
@@ -52,8 +55,10 @@
                     </div>
                 </td>
 
+                <td>@item.Status</td>
+
                 <td style="white-space:nowrap">
-                    <a class="btn btn-info">Edit</a>
+                    <a href="/Task/Edit?id=@item.TaskID" class="btn btn-info">Edit</a>
                     <a class="btn btn-danger">Delete</a>
                 </td>
             </tr>
