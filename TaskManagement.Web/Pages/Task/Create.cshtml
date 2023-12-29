@@ -1,0 +1,134 @@
+﻿@page
+@model TaskManagement.Web.Pages.Task.CreateModel
+@{
+}
+
+
+<div class="container mt-1">
+    <h4 class="text-center mb-4">Create Task</h4>
+    <div class="row">
+        <div class="col-md-8">
+            <form id="createTaskForm">
+                <div class="form-group row mb-3">
+                    <label for="Name" class="col-sm-4 col-form-label">Title</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="Name" name="Name" class="form-control" value="" required />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Description" class="col-sm-4 col-form-label">Description:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="Description" name="Description" class="form-control" value="" required />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Assignee" class="col-sm-4 col-form-label">Assignee:</label>
+                    <div class="col-sm-8">
+                        <select id="Assignee" name="Assignee" class="form-control" required>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Priority" class="col-sm-4 col-form-label">Priority:</label>
+                    <div class="col-sm-8">
+                        <select id="Priority" name="Priority" class="form-control" required>
+                            <option value="high">High</option>
+                            <option value="medium">Medium</option>
+                            <option value="low">Low</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Status" class="col-sm-4 col-form-label">Status:</label>
+                    <div class="col-sm-8">
+                        <select id="Status" name="Status" class="form-control" required>
+                            <option value="open">Open</option>
+                            <option value="inprogress">In Progress</option>
+                            <option value="closed">Closed</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Detail" class="col-sm-4 col-form-label">Detail:</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="Detail" name="Detail" class="form-control" value="" required />
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="addTask()">Add Detail</button>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-sm-12">
+                        <div class="col-md-12">
+                            <table class="table" id="taskTable">
+                                <thead>
+                                    <tr>
+                                        <th>Detail</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="taskTableBody">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-8 offset-sm-4">
+                        <button type="button" class="btn btn-primary" onclick="addTask()">Save</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+
+@section scripts {
+    <script>
+        
+
+        $(document).ready(function () {
+            $('#Assignee').select2({
+                placeholder: 'Select an Assignee',
+            });
+            var assignees = ['Assignee 1', 'Assignee 2', 'Assignee 3'];
+
+            for (var i = 0; i < assignees.length; i++) {
+                $('#Assignee').append('<option value="' + assignees[i] + '">' + assignees[i] + '</option>');
+            }
+
+            $('#Assignee').select2({
+                placeholder: 'Select an Assignee',
+            });
+        });
+
+        function addTask() {
+            var detail = document.getElementById('Detail').value;
+
+            if (detail.trim() === "") {
+                alert("Detail cannot be empty");
+                return;
+            }
+
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = '<td>' + detail + '</td><td><button type="button" class="btn btn-danger btn-sm" onclick="deleteTask(this)">Delete</button></td>';
+
+            document.getElementById('taskTableBody').appendChild(newRow);
+
+            document.getElementById('Detail').value = "";
+        }
+
+        function deleteTask(button) {
+            var row = button.closest('tr');
+            row.remove();
+        }
+</script>
+}
