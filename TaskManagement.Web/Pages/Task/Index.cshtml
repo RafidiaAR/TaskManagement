@@ -1,0 +1,73 @@
+﻿@page
+@model TaskManagement.Web.Pages.Task.IndexModel
+@{
+}
+
+<div class="row mb-5">
+    <div class="col">
+        <a class="btn btn-primary">Add New User</a>
+    </div>
+</div>
+
+<table class="table" id="userTable">
+    <thead>
+        <tr>
+            <th>TaskName</th>
+            <th>TaskDescription</th>
+            <th>Progress</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.TaskData)
+        {
+            <tr>
+                <td>@item.TaskName</td>
+                <td>@item.TaskDescription</td>
+
+                @{
+                    var completionPercentage = 10;
+                    string progressBarColor;
+                }
+
+
+                @if (completionPercentage < 25)
+                {
+                    progressBarColor = "bg-danger";
+                }
+                else if (completionPercentage < 75)
+                {
+                    progressBarColor = "bg-warning";
+                }
+                else
+                {
+                    progressBarColor = "bg-success";
+                }
+
+                <td>
+                    <div class="progress">
+                        <div class="progress-bar @progressBarColor" role="progressbar" style="width: @completionPercentage%;" aria-valuenow="@completionPercentage" aria-valuemin="0" aria-valuemax="100">
+                            @completionPercentage.ToString("0")%
+                        </div>
+                    </div>
+                </td>
+
+                <td style="white-space:nowrap">
+                    <a class="btn btn-info">Edit</a>
+                    <a class="btn btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#userTable').DataTable({
+                paging: true,
+                searching: true
+            });
+        });
+    </script>
+}

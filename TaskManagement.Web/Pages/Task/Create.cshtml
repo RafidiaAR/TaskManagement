@@ -1,0 +1,97 @@
+﻿@page
+@model TaskManagement.Web.Pages.Task.CreateModel
+@{
+}
+
+
+<div class="container mt-5">
+    <h4 class="text-center mb-4">Create Task</h4>
+    <div class="row">
+        <div class="col-md-8">
+            <form id="createTaskForm">
+                <div class="form-group row mb-3">
+                    <label for="Name" class="col-sm-4 col-form-label">Task Name</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="Name" name="Name" class="form-control" value="" required />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Description" class="col-sm-4 col-form-label">Description:</label>
+                    <div class="col-sm-8">
+                        <input type="text" id="Description" name="Description" class="form-control" value="" required />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Detail" class="col-sm-4 col-form-label">Detail:</label>
+                    <div class="col-sm-6">
+                        <input type="text" id="Detail" name="Detail" class="form-control" value="" required />
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-secondary btn-sm" onclick="addTask()">Add Detail</button>
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <div class="col-sm-12">
+                        <div class="col-md-12">
+                            <table class="table" id="taskTable">
+                                <thead>
+                                    <tr>
+                                        <th>Task Name</th>
+                                        <th>Description</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="taskTableBody">
+                                    <!-- Task details will be dynamically added here -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <div class="col-sm-8 offset-sm-4">
+                        <button type="button" class="btn btn-primary" onclick="addTask()">Add Task</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script>
+        function addTask() {
+            // Get values from the form
+            var taskName = document.getElementById('Name').value;
+            var description = document.getElementById('Description').value;
+
+            // Validate if values are not empty
+            if (taskName.trim() === "" || description.trim() === "") {
+                alert("Task Name and Description cannot be empty");
+                return;
+            }
+
+            // Create a new row for the table
+            var newRow = document.createElement('tr');
+            newRow.innerHTML = '<td>' + taskName + '</td><td>' + description + '</td><td><button type="button" class="btn btn-danger btn-sm" onclick="deleteTask(this)">Delete</button></td>';
+
+            // Append the new row to the table body
+            document.getElementById('taskTableBody').appendChild(newRow);
+
+            // Clear the form inputs
+            document.getElementById('Name').value = "";
+            document.getElementById('Description').value = "";
+        }
+
+        function deleteTask(button) {
+            // Get the row to be deleted
+            var row = button.closest('tr');
+
+            // Remove the row from the table
+            row.remove();
+        }
+</script>
+}
