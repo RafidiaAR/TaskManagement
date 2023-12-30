@@ -7,25 +7,25 @@
     <h4 class="text-center mb-4">Edit Task</h4>
     <div class="row">
         <div class="col-md-8">
-            <form id="editTaskForm">
+            <form id="editTaskForm" method="post">
                 <div class="form-group row mb-3">
-                    <label for="Name" class="col-sm-4 col-form-label">Title</label>
+                    <label for="Title" class="col-sm-4 col-form-label">Title</label>
                     <div class="col-sm-8">
-                        <input type="text" id="Name" name="Name" class="form-control" value="" required />
+                        <input type="text" asp-for="CreateTaskModel.Title" id="Title" name="Title" class="form-control" required />
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
                     <label for="Description" class="col-sm-4 col-form-label">Description:</label>
                     <div class="col-sm-8">
-                        <input type="text" id="Description" name="Description" class="form-control" value="" required />
+                        <input type="text" asp-for="CreateTaskModel.Description" id="Description" name="Description" class="form-control" required />
                     </div>
                 </div>
 
                 <div class="form-group row mb-3">
                     <label for="Assignee" class="col-sm-4 col-form-label">Assignee:</label>
                     <div class="col-sm-8">
-                        <select id="Assignee" name="Assignee" class="form-control" required>
+                        <select id="Assignee" asp-for="CreateTaskModel.Assignee" name="Assignee" class="form-control" required>
                         </select>
                     </div>
                 </div>
@@ -33,7 +33,7 @@
                 <div class="form-group row mb-3">
                     <label for="Priority" class="col-sm-4 col-form-label">Priority:</label>
                     <div class="col-sm-8">
-                        <select id="Priority" name="Priority" class="form-control" required>
+                        <select id="Priority" asp-for="CreateTaskModel.Priority" name="Priority" class="form-control" required>
                             <option value="high">High</option>
                             <option value="medium">Medium</option>
                             <option value="low">Low</option>
@@ -44,28 +44,25 @@
                 <div class="form-group row mb-3">
                     <label for="Status" class="col-sm-4 col-form-label">Status:</label>
                     <div class="col-sm-8">
-                        <select id="Status" name="Status" class="form-control" required>
+                        <select id="Status" asp-for="CreateTaskModel.Status"  name="Status" class="form-control" required>
                             <option value="open">Open</option>
                             <option value="inprogress">In Progress</option>
                             <option value="closed">Closed</option>
                         </select>
                     </div>
                 </div>
+
                 <div class="form-group row mb-3">
-                    <label class="col-sm-4 col-form-label">Detail:</label>
+                    <label for="DueDate" class="col-sm-4 col-form-label">Due Date:</label>
                     <div class="col-sm-8">
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="checkboxOption1" name="DetailOption1">
-                            <label class="form-check-label" for="checkboxOption1">Option 1</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="checkboxOption2" name="DetailOption2">
-                            <label class="form-check-label" for="checkboxOption2">Option 2</label>
-                        </div>
-                        <div class="form-check">
-                            <input type="checkbox" class="form-check-input" id="checkboxOption3" name="DetailOption3">
-                            <label class="form-check-label" for="checkboxOption3">Option 3</label>
-                        </div>
+                        <input type="date"  asp-for="CreateTaskModel.DueDate" id="DueDate" name="DueDate" class="form-control" required />
+                    </div>
+                </div>
+
+                <div class="form-group row mb-3">
+                    <label for="Progress" class="col-sm-4 col-form-label">Progress:</label>
+                    <div class="col-sm-8">
+                        <input type="number" asp-for="CreateTaskModel.Progress" id="Progress" name="Progress" class="form-control" required />
                     </div>
                 </div>
 
@@ -78,3 +75,25 @@
         </div>
     </div>
 </div>
+
+
+@section scripts {
+    <script>
+
+
+        $(document).ready(function () {
+            $('#Assignee').select2({
+                placeholder: 'Select an Assignee',
+            });
+            var assignees = ['Assignee 1', 'Assignee 2', 'Assignee 3'];
+
+            for (var i = 0; i < assignees.length; i++) {
+                $('#Assignee').append('<option value="' + assignees[i] + '">' + assignees[i] + '</option>');
+            }
+
+            $('#Assignee').select2({
+                placeholder: 'Select an Assignee',
+            });
+        });
+    </script>
+}

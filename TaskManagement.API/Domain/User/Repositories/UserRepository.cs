@@ -17,10 +17,15 @@ namespace TaskManagement.API.Domain.User.Repositories
             _connectionString = _configuration.GetValue<string>("ConnectionString:DefaultConnection");
         }
 
-        public async Task<bool> Validate(string username, string password) 
+        public bool ValidateLogin(string password, string hashedPassword, string salt) 
+        {
+            bool verifyPass = VerifyPassword(password, Convert.FromBase64String(salt), hashedPassword.Trim());
+
+            return verifyPass;
+        }
+        public async Task<UserEntity> GetByUsername(string username) 
         {
             var user = new UserEntity();
-
             using (SqlConnection connection = new SqlConnection(_connectionString))
             {
                 try
@@ -39,12 +44,12 @@ namespace TaskManagement.API.Domain.User.Repositories
                             {
                                 user.UserID = new Guid(reader["UserId"].ToString());
                                 user.Username = reader["Username"].ToString();
+                                user.FullName = reader["Fullname"].ToString();
                                 user.Password = reader["Password"].ToString();
                                 user.Salt = reader["Salt"].ToString();
                             }
                         }
                     }
-
                 }
                 catch (Exception ex)
                 {
@@ -56,10 +61,7 @@ namespace TaskManagement.API.Domain.User.Repositories
                 }
             }
 
-
-            bool verifyPass = VerifyPassword(password,Convert.FromBase64String(user.Salt),user.Password.Trim());
-
-            return verifyPass;
+            return user;
         }
         public void CreateUser(UserEntity data) 
         {

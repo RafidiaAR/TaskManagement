@@ -26,10 +26,10 @@
             <tr>
                 <td>@item.Title</td>
                 <td>@item.Priority</td>
-                <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
+                <td>@item.Duedate.ToString("yyyy-MM-dd")</td>
 
                 @{
-                    var completionPercentage = item.ProgressPercentage;
+                    var completionPercentage = item.Progress;
                     string progressBarColor;
                 }
 
@@ -58,8 +58,8 @@
                 <td>@item.Status</td>
 
                 <td style="white-space:nowrap">
-                    <a href="/Task/Edit?id=@item.TaskID" class="btn btn-info">Edit</a>
-                    <a class="btn btn-danger">Delete</a>
+                    <a href="/Task/Edit?id=@item.TaskId" class="btn btn-info">Edit</a>
+                    <a href="/Task/Delete?id=@item.TaskId" class="btn btn-danger">Delete</a>
                 </td>
             </tr>
         }

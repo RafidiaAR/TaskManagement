@@ -1,28 +1,46 @@
-using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
 using TaskManagement.Web.Model.Task;
 using TaskManagement.Web.Model.User;
+using TaskManagement.Web.Pages.User;
+using System.Threading.Tasks;
 
 namespace TaskManagement.Web.Pages.Task
 {
     public class IndexModel : PageModel
     {
-        public List<GetTaskResponse> TaskData { get; set; }
-        public void OnGet()
+        private readonly IConfiguration _configuration;
+        private string UrlAPI;
+
+        public IndexModel(IConfiguration configuration)
         {
+            _configuration = configuration;
+            UrlAPI = _configuration["UrlBackendAPI"];
+        }
+
+        public List<GetTaskResponse> TaskData { get; set; }
+
+        public async System.Threading.Tasks.Task OnGetAsync()
+        {
+
+            var apiUrl = $"{UrlAPI}Task/FindAll";
+
             TaskData = new List<GetTaskResponse>();
-            var addData = new GetTaskResponse
+
+            using (var httpClient = new HttpClient())
             {
-                TaskID = Guid.NewGuid().ToString(),
-                Title = "API - Modify Response",
-                Description = "Detailed",
-                Assignee = "rramadhan3",
-                DueDate = DateTime.Now.AddDays(2),
-                ProgressPercentage = (decimal)78.5,
-                Priority = "High",
-                Status = "In Progress"
-            };
-            TaskData.Add(addData);
+                var response = await httpClient.GetAsync(apiUrl);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    var result = await response.Content.ReadAsStringAsync();
+                    var data = JsonConvert.DeserializeObject<List<GetTaskResponse>>(result);
+
+                    TaskData.AddRange(data);
+                }
+            }
+
         }
     }
 }

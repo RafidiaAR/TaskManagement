@@ -1,6 +1,6 @@
-﻿namespace TaskManagement.Web.Model.Task
+﻿namespace TaskManagement.API.Domain.Task.DTO
 {
-    public class GetTaskResponse
+    public class GetTaskDTO
     {
         public Guid TaskId { get; set; }
         public string Title { get; set; }

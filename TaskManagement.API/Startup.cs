@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
+using TaskManagement.API.Domain.Task.Repositories;
 using TaskManagement.API.Domain.User.Repositories;
 
 namespace TaskManagement.API
@@ -18,6 +19,7 @@ namespace TaskManagement.API
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
             services.AddScoped<UserRepository>();
+            services.AddScoped<TaskRepository>();
         }
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {

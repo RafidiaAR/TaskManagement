@@ -1,6 +1,6 @@
-﻿namespace TaskManagement.Web.Model.Task
+﻿namespace TaskManagement.API.Domain.Task.Entities
 {
-    public class GetTaskResponse
+    public class TaskEntity
     {
         public Guid TaskId { get; set; }
         public string Title { get; set; }
@@ -14,5 +14,6 @@
         public DateTime? UpdatedAt { get; set; }
         public string? UpdatedBy { get; set; }
         public int Progress { get; set; }
+
     }
 }

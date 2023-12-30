@@ -19,10 +19,40 @@ namespace TaskManagement.API.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login(UserLoginDTO request)
+        public async Task<IActionResult> Login(UserLoginDTO request)
         {
-            _userRepository.Validate(request.Username, request.Password);
-            return Ok();
+            bool valid = false;
+
+            var result = new UserLoginResponseDTO();
+            var user = await _userRepository.GetByUsername(request.Username);
+
+            if (user != null)
+            {
+                valid = _userRepository.ValidateLogin(request.Password, user.Password, user.Salt);
+
+                if (valid)
+                {
+                    result.IsSuccess = valid;
+                    result.Message = "Login Successfully";
+                    result.UserData = new UserDataDTO
+                    {
+                        Username = user.Username,
+                        Fullname = user.FullName
+                    };
+                    return Ok(result);
+                }
+                else 
+                {
+                    result.Message = "Check again your password";
+                }
+            }
+            else 
+            {
+                result.Message = "User Not Found";
+
+            }
+            result.IsSuccess = valid;
+            return Unauthorized(result);
         }
 
         [HttpPost]
